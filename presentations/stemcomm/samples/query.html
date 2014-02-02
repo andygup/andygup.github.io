@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        Sample Demonstrating how to Query Demographics Data
+        Documentation links:
+        Using a Query Task: http://developers.arcgis.com/en/javascript/jshelp/intro_querytask.html
+        Uses map events: http://developers.arcgis.com/en/javascript/jshelp/inside_events.html
+
+        IMPORTANT: You will have to install your own proxy for this application to work.
+        For addt'l info: https://developers.arcgis.com/en/javascript/jshelp/ags_proxy.html
+    -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>Simple Map</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.7/js/esri/css/esri.css">
+    <style>
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #FFF;
+            overflow: hidden;
+            font-family: "Trebuchet MS";
+        }
+        .yellow {
+            color:#FFFF00 !important;
+        }
+        .myHeader{
+            padding: 8px;
+            font-size: medium !important;
+            color: white;
+            background-color: #000000;
+        }
+        .panel {
+            padding: 8px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            height: 225px;
+            width: 200px;
+            background-color: #000000;
+            color: #ffffff;
+            font-size: medium !important;
+            border-style: solid;
+            border-color: #000000;
+            border-width: 2px;
+            top: 30px; right: 50px; position: absolute;
+        }
+    </style>
+    <script src="http://js.arcgis.com/3.7/"></script>
+    <script>
+        var map;
+
+        require([
+            "esri/map",
+            "esri/tasks/query",
+            "esri/tasks/QueryTask",
+            "esri/symbols/SimpleLineSymbol",
+            "esri/config",
+            "dojo/on", "dojo/domReady!"],
+        function(Map,Query,QueryTask,SimpleLineSymbol,esriConfig,on) {
+            map = new Map("map", {
+                basemap: "topo",
+                center: [-105.109,40.17], // long, lat
+                zoom: 12,
+                sliderStyle: "small"
+            });
+
+            document.getElementById("panel").innerHTML =
+                    "<br>Median Income: <br> <div class='yellow'>$0.00</div> " + "<hr><br>" +
+                            "Average Retail Spending: <br> <div class='yellow'>$0.0</div>"  + "<hr><br>" +
+                            "Total Population: <br> <div class='yellow'>0</div>";
+
+            var queryTask =
+                    new QueryTask("http://server.arcgisonline.com/ArcGIS/rest/services/Demographics/USA_Retail_Spending_Potential/MapServer/1");
+            var query = new Query();
+            query.returnGeometry = true;
+            query.outFields = ["*"];
+            query.spatialRelationship = Query.SPATIAL_REL_CONTAINS;
+            query.outSpatialReference = {wkid:102100};
+
+            // refer to "Using the Proxy Page" for more information:  https://developers.arcgis.com/en/javascript/jshelp/ags_proxy.html
+            esriConfig.defaults.io.proxyUrl = "/proxy/proxy.php";
+
+            map.on("click", executeQuery);
+
+            function executeQuery(evt){
+
+                map.graphics.clear();
+
+                //Create circle geometry
+                var circle = drawcircle(2,evt.mapPoint,true);
+
+                //Draw circle on map
+                var sls = new SimpleLineSymbol();
+                var graphic = new esri.Graphic(circle, sls);
+                map.graphics.add(graphic);
+
+                query.geometry = circle;
+                queryTask.execute(query,queryComplete,function(err){
+                    console.log("QueryTask Error: " + err.toString());
+                });
+            }
+
+            function queryComplete(featureSet){
+                var fsLength = featureSet.features.length;
+                var features = featureSet.features;
+
+                if(fsLength == 0){
+                    alert("No Demographics results found");
+                }
+                else{
+                    var medianIncome = 0;
+                    var averageRetailSpend = 0;
+                    var totalPopulation = 0;
+
+                    for(var i = 0; i <= fsLength; i++){
+
+                        if(typeof features[i] != "undefined" && features[i].hasOwnProperty("attributes")) {
+                            medianIncome += features[i].attributes.MEDHINC_CY;
+                            averageRetailSpend += features[i].attributes.X15001_A;
+                            totalPopulation += features[i].attributes.TOTPOP_CY;
+                        }
+                    }
+
+                    document.getElementById("panel").innerHTML =
+                        "<br>Median Income: <br><div class='yellow'>$" + (medianIncome/fsLength).toFixed(0) + "</div><hr><br>" +
+                        "Average Retail Spending: <br><div class='yellow'>$" + (averageRetailSpend/fsLength).toFixed(0) + "</div><hr><br>" +
+                        "Total Population:<div class='yellow'>" + totalPopulation + "</div>";
+                }
+            }
+
+            //////////////////
+            // Draw Circle
+            //////////////////
+
+            /**
+             * Creates a circle polygon
+             * @param radius Miles
+             * @param point esri.MapPoint
+             * @param returnMercator
+             * @returns {null}
+             */
+            function drawcircle(/*int*/radius,/*geometry.Point*/point,/*Boolean*/returnMercator){
+
+                var mapPt = null;
+                var polygon = null;
+
+                if(typeof returnMercator != 'undefined' || returnMercator == true)
+                {
+                    if(map.spatialReference.wkid == 102100){
+                       mapPt = esri.geometry.webMercatorToGeographic(point);
+                    }
+                    polygon = new esri.geometry.Polygon(new esri.SpatialReference({wkid:102100}));
+                }
+                else
+                {
+                    mapPt = point;
+                    polygon = new esri.geometry.Polygon(new esri.SpatialReference({wkid:4326}))
+                }
+
+                var lon1 = degToRad(mapPt.x);
+                var lat1 = degToRad(mapPt.y);
+                var R_KM = 6371; //radius km
+                var R_MI = 3963;
+                //var d:Number = radius/R_KM;          //angular distance on earth's surface
+                var d = radius/R_MI;         //angular distance on earth's surface
+
+                //Reduce the number of points in the polygon that we create
+                //Fewer points means a smaller payload to send back and forth
+                //when making REST requests to ArcGIS Server/ArcGIS Online
+                var nodes = 30; //number of nodes in circle
+                var step = 360/nodes||10;
+                var ptArray = [];
+                var n = 0;
+
+                for(var x = 0; x < 360; x+=step)
+                {
+                    var bearing = degToRad(x);
+                    var lat2 = Math.asin(
+                            Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(bearing)
+                    );
+
+                    var lon2 = lon1 + Math.atan2(
+                            Math.sin(bearing) * Math.sin(d) * Math.cos(lat1),
+                            Math.cos(d) - Math.sin(lat1) * Math.sin(lat2)
+                    );
+
+                    if(returnMercator)
+                    {
+                        ptArray[n] = esri.geometry.geographicToWebMercator(
+                                new esri.geometry.Point(radToDeg(lon2), radToDeg(lat2), map.spatialReference)
+                        );
+                    }
+                    else
+                    {
+                        ptArray[n] = new esri.geometry.Point(radToDeg(lon2), radToDeg(lat2), new esri.SpatialReference({
+                            wkid: 4326
+                        }));
+                    }
+
+                    n++;
+                }
+
+                //add first point to the end of array to close the polygon
+                ptArray.push(ptArray[0]);
+                polygon.addRing(ptArray);
+                return polygon;
+            }
+
+            function radToDeg(/*number*/radians){
+                return radians * 180 / Math.PI;
+            }
+
+            function degToRad(/*number*/degrees){
+                return degrees * Math.PI /180;
+            }
+
+        });
+    </script>
+</head>
+
+<body>
+<div class="myHeader" id="myHeader">Click on map to get demographics information</div>
+<div id="map"></div>
+<div class="panel" id="panel"></div>
+</body>
+</html>
