@@ -18,20 +18,20 @@
             font-family: "Trebuchet MS";
         }
     </style>
-    <script>
-        var locationPath = location.pathname.replace(/\/[^/]+$/, "");
-        var dojoConfig = {
-            paths: {
-                extras: locationPath  + "/extras"
-            }
-        }
-    </script>
+    <!--<script>-->
+        <!--var locationPath = location.pathname.replace(/\/[^/]+$/, "");-->
+        <!--var dojoConfig = {-->
+            <!--paths: {-->
+                <!--utils: locationPath  + "/utils"-->
+            <!--}-->
+        <!--}-->
+    <!--</script>-->
     <script src="http://js.arcgis.com/3.8/"></script>
     <script>
         "use strict"
         var map;    //Global
 
-        require(["esri/map","extras/test2","dojo/_base/declare", "dojo/domReady!"], function(Map,test,declare) {
+        require(["esri/map","/test/utils/test2","dojo/_base/declare", "dojo/domReady!"], function(Map,test,declare) {
             map = new Map("map", {
                 basemap: "topo",
                 center: [-122.45,37.75], // long, lat
@@ -39,14 +39,13 @@
                 sliderStyle: "small"
             });
 
-            var myTest = new extras.MapTools();
+            var myTest = new utils.MapTools();
 
             map.on("load",function(evt){
 
                 myTest.setExtent(map);
-                console.log("Test 2 get map id - " + JSON.stringify(myTest.getExtent()))
+                alert("Test 2 get map id - " + JSON.stringify(myTest.getExtent()))
             })
-
         });
     </script>
 </head>

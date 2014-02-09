@@ -22,7 +22,7 @@
         var locationPath = location.pathname.replace(/\/[^/]+$/, "");
         var dojoConfig = {
             paths: {
-                extras: locationPath  + "/extras"
+                utils: locationPath  + "/utils"
             }
         }
     </script>
@@ -31,8 +31,8 @@
         "use strict"
         var map;    //Global
 
-        require(["esri/map","extras/test", "dojo/domReady!"], function(Map,test) {
-            console.log("DATE: " + test.getDateHMS());   //static function
+        require(["esri/map","utils/test", "dojo/domReady!"], function(Map,test) {
+            alert("DATE: " + test.getDateHMS());   //static function
             map = new Map("map", {
                 basemap: "topo",
                 center: [-122.45,37.75], // long, lat
