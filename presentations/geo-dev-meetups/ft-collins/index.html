@@ -21,6 +21,11 @@
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
 		<style type="text/css">
+
+            html.img-60 div.slide-background.present {
+                background-size: 60%;
+            }
+
 			.reveal .controls {
 				display: none;
 			}
@@ -44,6 +49,11 @@
 
             .black {
                 color: #000000 !important;
+            }
+
+            .large-courier-font {
+                font-family: "Consolas", "Menlo", "Lucida Console", "Courier New", monospace !important;
+                font-size: 200px !important;
             }
 
             .medium-font {
@@ -195,32 +205,38 @@
                     <img class="rotate-right" src="images/agol-credits.png">
                 </section>
 
+                <section>
+                    <h1 class="large-font">Attendees Only</h1>
+                    <h1 class="large-font">Free</h1>
+                    <h1 class="yellow">1000 Credits</h1>
+                </section>
+
 				<section>
-					<h1 class="large-font">Free Subscription</h1>
-                    <h1 class="yellow">1000 Credits!</h1>
+                    <h1 class="yellow large-courier-font">FTC1014GEODEV</h1>
                     <hr>
                     <br>
-					<div class="fragment">
-						<a target="_blank" href="http://developers.arcgis.com/">
-							<h1 class="yellow">FTC1014GEODEV</h1>
-                            <br>
-							<h1>Sign up by <span class="yellow" style="text-decoration: underline">11/6/14</span></h1>
-                            <br>
-                            <h1>Use by <span class="yellow" style="text-decoration: underline">5/6/15</span></h1>
-						</a>
-					</div>
+                    <h1>Sign up by <span class="yellow" style="text-decoration: underline">11/6/14</span></h1>
+                    <br>
+                    <h1>Use by <span class="yellow" style="text-decoration: underline">5/6/15</span></h1>
+					<!--<div class="fragment">-->
+						<!--<a target="_blank" href="http://developers.arcgis.com/">-->
+							<!--<h1 class="yellow">FTC1014GEODEV</h1>-->
+                            <!--<br>-->
+							<!--<h1>Sign up by <span class="yellow" style="text-decoration: underline">11/6/14</span></h1>-->
+                            <!--<br>-->
+                            <!--<h1>Use by <span class="yellow" style="text-decoration: underline">5/6/15</span></h1>-->
+						<!--</a>-->
+					<!--</div>-->
 				</section>
 
                 <section>
                     <h1 class="large-font">Sign up!</h1>
                     <img src="images/agol_signup.png">
-                    <h2>developers.arcgis.com</h2>
                 </section>
 
                 <section>
                     <h1 class="large-font">Redeem Voucher</h1>
                     <img src="images/agol-redeem-voucher.png">
-                    <h2>developers.arcgis.com</h2>
                 </section>
 
                 <section>
@@ -229,8 +245,20 @@
                     <h2>developers.arcgis.com</h2>
                 </section>
 
-                <section data-background="images/kitten-n-fish.jpg" data-background-transition="slide">
+                <section data-background="images/kitten-n-fish.jpg" data-background-transition="slide" data-state="img-60">
                     <h1 class="large-blackfont-rotate-right">What'z New!</h1>
+                </section>
+
+                <section data-background="images/opacity-renderer.png" data-background-transition="slide">
+                    <a target="_blank" href="http://developers.arcgis.com/javascript/sandbox/sandbox.html?sample=renderer_opacityinfo"> <h1 class="large-font-rotate-right">setOpacity</h1></a>
+                </section>
+
+                <section>
+                    <h1 class="large-font">ArcGIS Online</h1>
+                    <br>
+                    <hr>
+                    <br>
+                    <h1 class="yellow">Web AppBuilder (Beta) </h1>
                 </section>
 
 				<section data-transition="slide">
@@ -244,32 +272,32 @@
                 </section>
 
                 <section data-transition="slide">
-                    <h1>Web AppBuilder (Beta) </h1>
+                    <h1>Themes, Layout, Style </h1>
                     <img src="images/agol-denver-neighborhood-step3.png">
                 </section>
 
                 <section data-transition="fade">
-                    <h1>Web AppBuilder (Beta) </h1>
+                    <h1>Change the map </h1>
                     <img src="images/agol-denver-neighborhood-step3b.png">
                 </section>
 
                 <section data-transition="fade">
-                    <h1>Web AppBuilder (Beta) </h1>
+                    <h1>Add + Create Widgets </h1>
                     <img src="images/agol-denver-neighborhood-step3c.png">
                 </section>
 
                 <section data-transition="fade">
-                    <h1>Web AppBuilder (Beta) </h1>
+                    <h1>Change attribution </h1>
                     <img src="images/agol-denver-neighborhood-step3d.png">
                 </section>
 
                 <section data-transition="fade">
-                    <h1>Web AppBuilder (Beta) </h1>
+                    <h1>Mobile preview mode </h1>
                     <img src="images/agol-denver-neighborhood-step3e.png">
                 </section>
 
                 <section data-transition="fade">
-                    <h1>Web AppBuilder (Beta) </h1>
+                    <h1>Mobile preview mode </h1>
                     <img src="images/agol-denver-neighborhood-step3f.png">
                 </section>
 
@@ -295,14 +323,14 @@
                 <!--</section>-->
 
 				<section  data-background="images/sunset.jpg" data-background-transition="slide">
-					<h1 class="large-font">Tonight!</h1>
-					<br>
+					<h1>Tonight's Line up...</h1>
                     <hr>
 					<h1 class="yellow">6:30 - 8:00 </h1>
 					<p>
 					<ul >
 						<li><h2>Building a New School Locator for DPS - Matt Baker</h2></li>
                         <li><h2>Building tools with Esri's .NET SDK - Ben Palmer</h2></li>
+                        <li><h2>Custom REST API Feature Services - Bill Thorp</h2></li>
                         <li><h2>Some v. cool Angular stuff - Dave Bouwman</h2></li>
                         <li><h2>Offline maps and data - Andy Gup</h2></li>
 					</ul>
