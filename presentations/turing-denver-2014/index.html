@@ -92,6 +92,11 @@
             .rotate-right {
                 transform:rotate(4deg);
             }
+
+            .reveal pre code {
+                line-height: normal;
+            }
+
 		</style>
 
 		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
@@ -111,29 +116,85 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 
-				<section data-background="images/red-sky.jpg">
-					<img style="height:200px; border:none; background:none" src="images/esri-logo-white-trans.png">
-					<h1 class="large-font-plus-outline">GeoDev Meetup</h1>
-					<br>
-					<p>
-						<h2><a class="yellow-plus-outline medium-font" target="_blank" href="http://twitter.com/agup">@agup</a></h2>
-                        <br>
-                        <h2><a class="yellow-plus-outline medium-font"  target="_blank" href="">@AmyNiessen</a></h2>
-                        <br>
-                        <h2><a class="yellow-plus-outline medium-font"  target="_blank" href="http://github.com/jmhauck">@jmhauck</a></h2>
-					</p>
-				</section>
+                <!--
+
+                Earthquakes: http://www.arcgis.com/home/webscene/viewer.html?webscene=e8f078ba0c1546b6a6e0727f877742a5
+                Pacific Typhoons: http://www.arcgis.com/home/webscene/viewer.html?webscene=193a0e0ed72f413d8cdc649be637a846
+                Rotterdam: http://www.arcgis.com/home/webscene/viewer.html?webscene=94e00add11334767afb0abdce49c9a43
+                Historical USGS maps: http://historicalmaps.arcgis.com/usgs/
+                Story maps: http://storymaps.arcgis.com/en/
+                Age of humans: http://story.maps.arcgis.com/apps/MapJournal/?appid=d14f53dcaf7b4542a8c9110eeabccf1c
+
+                -->
 
                 <section>
-                    <h1 class="large-font-rotate-right">Tonight!</h1>
+                    <img style="height:200px; border:none; background:none" src="images/esri-logo-white-trans.png">
+                    <br><br><br>
+                    <h1 class="large-font-plus-outline">Building maps</h1>
+                    <br>
+                    <br>
+                    <h2><a class="yellow-plus-outline medium-font" target="_blank" href="http://twitter.com/agup">@agup</a></h2>
+                    </p>
+                </section>
+
+				<section data-background="images/opacity-renderer.png">
+				</section>
+
+                <section data-background="images/soil-survey.png">
+                </section>
+
+                <section data-background="images/tree-study.png">
+                </section>
+
+                <section data-background="images/pacific-typhoons.png">
+                </section>
+
+                <section data-background="images/historical-topo.png">
+                </section>
+
+                <section data-background="images/bee-tour.png">
+                </section>
+
+                <section data-background="images/age-of-humans.png">
+                </section>
+
+                <section>
+                    <h1 class="large-font-rotate-right">Data!</h1>
                     <br><br>
-                    <h1 class="yellow left">Intro</h1>
+                    <h1 class="yellow left">Data</h1>
                     <br><br>
-                    <h1 class="yellow left">Speakers</h1>
+                    <h1 class="yellow left">Data</h1>
                     <br><br>
-                    <h1 class="yellow left">Raffle</h1>
+                    <h1 class="yellow left">Data</h1>
                     <br><br>
-                    <h1 class="yellow left">Hangout!</h1>
+                    <h1 class="yellow left">Data!</h1>
+                </section>
+
+                <section>
+                    <h1 class="large-font">Data</h1>
+                    <br>
+                    <hr>
+                    <br><br>
+                    <h1 class="yellow">Points</h1>
+                    <h1 class="yellow">Lines</h1>
+                    <h1 class="yellow">Polygon</h1>
+                </section>
+
+                <section>
+                    <h1>GeoJSON Point</h1>
+                    <pre><code class="javascript" data-trim contenteditable style="font-size: 40px;">
+var point =
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [125.6, 10.1]
+    },
+    "properties": {
+        "name": "Dinagat Islands"
+    }
+}
+                    </code></pre>
                 </section>
 
                 <section data-background="images/crowd.png" data-background-transition="slide">
