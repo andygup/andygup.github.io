@@ -95,6 +95,7 @@
 
             .reveal pre code {
                 line-height: normal;
+                max-height: 800px !important;
             }
 
 		</style>
@@ -178,24 +179,129 @@
                     <h1 class="yellow">Points</h1>
                     <h1 class="yellow">Lines</h1>
                     <h1 class="yellow">Polygon</h1>
+                    <h1 class="yellow">and more...</h1>
                 </section>
 
                 <section>
                     <h1>GeoJSON Point</h1>
-                    <pre><code class="javascript" data-trim contenteditable style="font-size: 40px;">
+                    <pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 40px;">
 var point =
-{
-    "type": "Feature",
-    "geometry": {
-        "type": "Point",
-        "coordinates": [125.6, 10.1]
-    },
-    "properties": {
-        "name": "Dinagat Islands"
+    { "type": "Point",
+        "coordinates": [100.0, 0.0]
     }
-}
                     </code></pre>
                 </section>
+
+                <section>
+                    <h1>GeoJSON Line</h1>
+                    <pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 40px;">
+var line =
+    { "type": "LineString",
+        "coordinates": [ [100.0, 0.0], [101.0, 1.0] ]
+    }
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h1>GeoJSON Polygon</h1>
+                    <pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 40px;">
+var polygon =
+    { "type": "Polygon",
+        "coordinates": [
+            [
+                [100.0, 0.0], [101.0, 0.0], [101.0, 1.0],
+                [100.0, 1.0], [100.0, 0.0]
+            ]
+        ]
+    }
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h1>GeoJSON Feature</h1>
+                    <pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 30px;">
+  {
+     "type":"Feature",
+     "id":3,
+     "geometry":{
+        "type":"Point",
+        "coordinates":[
+           -122.68287749,
+           45.526496967
+        ]
+     },
+     "properties":{
+        "FID":3,
+        "PlaceName":"Starbucks",
+        "Place_addr":"1134 NW Glisan St Portland Oregon",
+        "Score":100,
+        "lat":45.526496967,
+        "lon":-122.68287749
+     }
+  }
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h1 class="large-font">Cartographic Design</h1>
+                    <br>
+                    <hr>
+                    <br><br>
+                    <h1 class="yellow">Map styling</h1>
+                    <br>
+                    <h1 class="yellow">Symbology</h1>
+                </section>
+
+
+                <section data-background="images/tile-style.png">
+                </section>
+
+                <section>
+                    <h1>Styling Map Tiles</h1>
+                    <br><br>
+                    <pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 40px;">
+var tileMapLayer = new CoolMapsTiledLayer(
+                        this.config.basemapURL,
+                        {color: “#ff0000” , alpha: 0.7});
+map.addLayer(lyr);
+                    </code></pre>
+                </section>
+
+                <section>
+                    <img src="images/portland-demo1.png" style="width: 100%;">
+                </section>
+
+                <section data-background="images/portland-bikes.png">
+                </section>
+
+                <section data-background="images/portland-bikes-density.png">
+                </section>
+
+                <section data-background="images/portland-bikes-density2.png">
+                </section>
+
+                <!-- Add in the coffee shop locations -->
+                <section data-background="images/portland-coffee-demographics.png">
+                </section>
+
+                <!-- Add in bike parking density by number of spots -->
+                <section data-background="images/portland-coffee-demographics2.png">
+                </section>
+
+                <!-- Trimet stop density -->
+                <section data-background="images/portland-trimet-density.png">
+                </section>
+
+                <!-- Trimet stop density -->
+                <section data-background="images/portland-trimet-coffee.png">
+                </section>
+
+                <!-- Trains plus bike lanes -->
+                <section >
+                    <!--<h1 class="large-font">Trains & Bikes</h1>-->
+                    <img src="images/portland-trains-bikes.png" style="width: 100%;">
+                </section>
+
 
                 <section data-background="images/crowd.png" data-background-transition="slide">
                     <h1 class="large-font-black">GeoDev meetups??</h1>
