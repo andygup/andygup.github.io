@@ -98,6 +98,10 @@
                 max-height: 800px !important;
             }
 
+            .reveal .slides>section.present {
+                top: -550px !important;
+            }
+
 		</style>
 
 		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
@@ -131,35 +135,47 @@
                 <section>
                     <img style="height:200px; border:none; background:none" src="images/esri-logo-white-trans.png">
                     <br><br><br>
-                    <h1 class="large-font-plus-outline">Building maps</h1>
+                    <h1 class="large-font-plus-outline">Designing maps</h1>
+                    <h1 class="large-font-plus-outline">with ArcGIS</h1>
                     <br>
                     <br>
                     <h2><a class="yellow-plus-outline medium-font" target="_blank" href="http://twitter.com/agup">@agup</a></h2>
                     </p>
                 </section>
 
-				<section data-background="images/opacity-renderer.png">
+				<section>
+                    <!--<h1 class="large-font">Demographics</h1>-->
+                    <img src="images/opacity-renderer.png" style="width: 100%;">
 				</section>
 
-                <section data-background="images/soil-survey.png">
-                </section>
-
-                <section data-background="images/tree-study.png">
-                </section>
-
-                <section data-background="images/pacific-typhoons.png">
-                </section>
-
-                <section data-background="images/historical-topo.png">
-                </section>
-
-                <section data-background="images/bee-tour.png">
-                </section>
-
-                <section data-background="images/age-of-humans.png">
+                <section>
+                    <!--<h1 class="large-font">Analysis</h1>-->
+                    <img src="images/soil-survey.png" style="width: 100%;">
                 </section>
 
                 <section>
+                    <img src="images/tree-study.png" style="width: 100%;">
+                </section>
+
+                <section>
+                    <img src="images/pacific-typhoons.png" style="width: 100%;">
+                </section>
+
+                <section>
+                    <img src="images/historical-topo.png" style="width: 100%;">
+                </section>
+
+                <section>
+                    <img src="images/bee-tour.png" style="width: 100%;">
+                </section>
+
+                <section>
+                    <img src="images/age-of-humans.png" style="width: 100%;">
+                </section>
+
+                <section>
+                    <h1>How does it all work?</h1>
+                    <br><br>
                     <h1 class="large-font-rotate-right">Data!</h1>
                     <br><br>
                     <h1 class="yellow left">Data</h1>
@@ -171,6 +187,9 @@
                     <h1 class="yellow left">Data!</h1>
                 </section>
 
+                <section data-background="images/binary-globe.png">
+                </section>
+
                 <section>
                     <h1 class="large-font">Data</h1>
                     <br>
@@ -179,7 +198,7 @@
                     <h1 class="yellow">Points</h1>
                     <h1 class="yellow">Lines</h1>
                     <h1 class="yellow">Polygon</h1>
-                    <h1 class="yellow">and more...</h1>
+                    <h1>and more...</h1>
                 </section>
 
                 <section>
@@ -242,6 +261,26 @@ var polygon =
                     </code></pre>
                 </section>
 
+                <section >
+                    <h1 class="large-font">Lots of data</h1>
+                    <img src="images/map-data.png" style="width: 90%;">
+                </section>
+
+                <section>
+                    <h1 class="large-font">Time data</h1>
+                    <img src="images/map-timebased.png" style="width: 70%;">
+                </section>
+
+                <section >
+                    <h1 class="large-font">Geodatabase</h1>
+                    <img src="images/database-table.png" style="width: 100%;">
+                </section>
+
+                <section >
+                    <h1 class="large-font">Elements</h1>
+                    <img src="images/database-elements.png" style="width: 65%;">
+                </section>
+
                 <section>
                     <h1 class="large-font">Cartographic Design</h1>
                     <br>
@@ -252,19 +291,56 @@ var polygon =
                     <h1 class="yellow">Symbology</h1>
                 </section>
 
+                <section>
+                    <h1 class="large-font">Cartographic Design</h1>
+                    <br>
+                    <hr>
+                    <br><br>
+                    <h1 class="yellow">ArcGIS Online</h1>
+                    <br>
+                    <h1 class="yellow">&</h1>
+                    <br>
+                    <h1 class="yellow">APIs</h1>
+                </section>
 
-                <section data-background="images/tile-style.png">
+
+                <!--
+
+                ARCGIS.COM SECTION
+
+                -->
+
+                <section>
+                    <h1 class="yellow">developers.arcgis.com</h1>
+                    <br>
+                    <hr>
+                    <br><br>
+                    <h1>Cloud-based map design</h1>
+                    <br>
+                    <h1>Analysis tools</h1>
+                    <br>
+                    <h1>Spatial database</h1>
+                    <br>
+                    <h1>RESTful web services</h1>
                 </section>
 
                 <section>
-                    <h1>Styling Map Tiles</h1>
-                    <br><br>
-                    <pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 40px;">
-var tileMapLayer = new CoolMapsTiledLayer(
-                        this.config.basemapURL,
-                        {color: “#ff0000” , alpha: 0.7});
-map.addLayer(lyr);
-                    </code></pre>
+                    <h1 class="yellow">Map designer</h1>
+                    <img src="images/agol-mymap.png" style="width: 100%;">
+                </section>
+
+                <section>
+                    <h1 class="yellow">Add online content</h1>
+                    <img src="images/agol-add-layers.png" style="width: 35%;">
+                </section>
+
+                <section>
+                    <h1 class="yellow">Easily swap base maps</h1>
+                    <img src="images/agol-select-basemap.png" style="width: 45%;">
+                </section>
+
+                <section>
+                    <img src="images/agol-analysis-tools.png" style="width: 90%;">
                 </section>
 
                 <section>
@@ -302,6 +378,51 @@ map.addLayer(lyr);
                     <img src="images/portland-trains-bikes.png" style="width: 100%;">
                 </section>
 
+                <!--
+
+                API SECTION
+
+                -->
+
+                <section>
+                    <h1 class="large-font">Renderers</h1>
+                    <hr>
+                    <h1 class="yellow">ClassBreaksRenderer</h1>
+                    <h1 class="yellow">DotDensityRenderer</h1>
+                    <h1 class="yellow">HeatmapRenderer</h1>
+                    <h1 class="yellow">ScaleDependentRenderer</h1>
+                    <h1 class="yellow">SimpleRenderer</h1>
+                    <h1 class="yellow">TemporalRenderer</h1>
+                    <h1>and many more...</h1>
+                </section>
+
+                <section>
+                    <h1 class="large-font">Symbology</h1>
+                    <hr>
+                    <h1 class="yellow">CartographicLineSymbol</h1>
+                    <h1 class="yellow">FillSymbol</h1>
+                    <h1 class="yellow">Font</h1>
+                    <h1 class="yellow">LineSymbol</h1>
+                    <h1 class="yellow">MarkerSymbol</h1>
+                    <h1 class="yellow">PictureMarkerSymbol</h1>
+                    <h1>and many more...</h1>
+                </section>
+
+                <section>
+                    <h1 class="large-font">CSS3</h1>
+                    <img src="images/tile-style.png" style="width: 100%;">
+                </section>
+
+                <section>
+                    <h1>Styling Map Tiles</h1>
+                    <br><br>
+                    <pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 40px;">
+var tileMapLayer = new CoolMapsTiledLayer(
+                        this.config.basemapURL,
+                        {color: “#ff0000” , alpha: 0.7});
+map.addLayer(lyr);
+                    </code></pre>
+                </section>
 
                 <section data-background="images/crowd.png" data-background-transition="slide">
                     <h1 class="large-font-black">GeoDev meetups??</h1>
@@ -373,18 +494,20 @@ map.addLayer(lyr);
                 </section>
 
                 <section>
-                    <h1 class="large-font">Attendees Only</h1>
-                    <h1 class="large-font">Free</h1>
+                    <h1 class="large-font">Free!</h1>
+                    <br><br>
+                    <h1 >developers.arcgis.com</h1>
+                    <br><br>
                     <h1 class="yellow">1000 Credits</h1>
                 </section>
 
 				<section>
-                    <h1 class="yellow large-courier-font">FTC1014GEODEV</h1>
+                    <h1 class="yellow large-courier-font">TURING2015</h1>
                     <hr>
                     <br>
-                    <h1>Sign up by <span class="yellow" style="text-decoration: underline">11/6/14</span></h1>
+                    <h1>Sign up by <span class="yellow" style="text-decoration: underline">12/26/14</span></h1>
                     <br>
-                    <h1>Use by <span class="yellow" style="text-decoration: underline">5/6/15</span></h1>
+                    <h1>Use by <span class="yellow" style="text-decoration: underline">6/26/15</span></h1>
 					<!--<div class="fragment">-->
 						<!--<a target="_blank" href="http://developers.arcgis.com/">-->
 							<!--<h1 class="yellow">FTC1014GEODEV</h1>-->
@@ -409,7 +532,7 @@ map.addLayer(lyr);
                 <section>
                     <h1 class="large-font">Enter Code</h1>
                     <img src="images/agol-redeem-voucher2.png">
-                    <h2>developers.arcgis.com</h2>
+                    <h1>developers.arcgis.com</h1>
                 </section>
 
                 <section data-background="images/kitten-n-fish.jpg" data-background-transition="slide" data-state="img-60">
@@ -486,45 +609,6 @@ map.addLayer(lyr);
                 <section data-transition="fade">
                     <img src="images/agol-configurable-app.png">
                 </section>
-
-                <!--<section>-->
-                    <!--<h2>New Logo == You can VOTE!</h2>-->
-                    <!--<img height="300" src="images/geodevlogo-final.png" alt="readme"> &nbsp;&nbsp;&nbsp;&nbsp;-->
-                    <!--<img height="300" src="images/geodevlogo_plain.png" alt="readme">-->
-                <!--</section>-->
-
-				<section  data-background="images/sunset.jpg" data-background-transition="slide">
-					<h1>Tonight's Line up...</h1>
-                    <hr>
-					<h1 class="yellow">6:30 - 8:00 </h1>
-					<p>
-					<ul >
-						<li><h2>Building a New School Locator for DPS - Matt Baker</h2></li>
-                        <li><h2>Building tools with Esri's .NET SDK - Ben Palmer</h2></li>
-                        <li><h2>Custom REST API Feature Services - Bill Thorp</h2></li>
-                        <li><h2>Some v. cool Angular stuff - Dave Bouwman</h2></li>
-                        <li><h2>Offline maps and data - Andy Gup</h2></li>
-					</ul>
-					</p>
-					<hr>
-					<p>
-					<h1 class="yellow">8:00 Trivia && Raffle</h1>
-                    <p>
-                    <hr>
-                    <h1 class="yellow">8:15 - 9:00 Social</h1>
-
-                    <!--
-					<ul style="font-size: 22px;">
-						<li>Jeffrey Holden, "Route Events to Track Road Maintenance & Easements for the State of Washington"</li>
-						<li>Robert Krisher, "Custom Geoprocessing Tools to Automate Workflows for ArcGIS-based Solutions”</li>
-						<li>Michael Patrick, "The Brand New Release of Qgis 2.0 and it's Coolness"</li>
-						<li>Derek Wilson, "Cartographic Representations”</li>
-						<li>Justin Steventon, "CyberTracker: a Simple and Elegant Way to Collect Data"</li>
-					</ul>
-					-->
-				</p>
-				</p>
-				</section>
 
 			</div>
 
