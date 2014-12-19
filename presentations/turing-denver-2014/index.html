@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Esri GeoDev Meetups</title>
+		<title>Cool Maps!</title>
 
 		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 		<meta name="author" content="Hakim El Hattab">
@@ -112,6 +112,7 @@
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
+
 	</head>
 
 	<body>
@@ -153,6 +154,34 @@
                     <img src="images/toomuchfun.png" style="width: 100%;">
                 </section>
 
+                <section data-state="startmap">
+                    <h1>In the beginning</h1>
+                    <h1>a map was born...</h1>
+                    <div style="height: 60px;"></div>
+                    <!--<pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 40px;">-->
+<!--require(["esri/map", "dojo/domReady!"], function(Map) {-->
+  <!--var map = new Map("map", {-->
+    <!--center: [-118, 34.5],-->
+    <!--zoom: 8,-->
+    <!--basemap: "topo"-->
+  <!--});-->
+<!--})-->
+                    <!--</code></pre>-->
+                    <pre style="height:  600px;"><code class="javascript" data-trim contenteditable style="font-size: 44px;">
+// Create map
+var map = L.map('map').setView([37.75, -122.23], 10);
+
+// Assign base map type
+L.esri.basemapLayer('Topographic').addTo(map);
+
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h1 class="large-font">First...</h1>
+                    <h1 class="large-font">A few examples</h1>
+                </section>
+
 				<section>
                     <!--<h1 class="large-font">Demographics</h1>-->
                     <img src="images/opacity-renderer.png" style="width: 100%;">
@@ -184,6 +213,14 @@
                 </section>
 
                 <section>
+                    <img src="images/data-tapestry.png" style="width: 75%;">
+                </section>
+
+                <section>
+                    <img src="images/hurricane-path.png" style="width: 100%;">
+                </section>
+
+                <section>
                     <h1>How does it all work?</h1>
                     <br><br>
                     <h1 class="large-font-rotate-right">Data!</h1>
@@ -197,8 +234,44 @@
                     <h1 class="yellow left">Data!</h1>
                 </section>
 
-                <section data-background="images/binary-globe.png">
+                <section>
+                    <img src="images/map-layers.png" style="width: 75%;">
                 </section>
+
+                <section>
+                    <img src="images/esr-content.png" style="width: 80%;">
+                </section>
+
+                <section>
+                    <img src="images/open-colorado.png" style="width: 80%;">
+                </section>
+
+                <section>
+                    <h1 class="large-font">Data Types</h1>
+                    <br>
+                    <hr>
+                    <br>
+                    <h1 class="yellow">KML</h1>
+                    <h1 class="yellow">CSV</h1>
+                    <h1 class="yellow">SHP</h1>
+                    <h1 class="yellow">XML</h1>
+                    <h1>...</h1>
+                </section>
+
+                <section>
+                    <h1 class="large-font">Web Services</h1>
+                    <hr>
+                    <h1 class="yellow">Map</h1>
+                    <a href="http://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Portland_Coffee_Shops/FeatureServer/0/query?where=1=1&outFields=*&outSR=4326&f=pgeojson"> <h1 class="yellow">Feature</h1></a>
+                    <h1 class="yellow">Geoprocessing</h1>
+                    <h1 class="yellow">Geocode</h1>
+                    <h1 class="yellow">Imagery</h1>
+                    <h1 class="yellow">Network</h1>
+                    <h1>and many more!</h1>
+                </section>
+
+                <!--<section data-background="images/bao-data.png">-->
+                <!--</section>-->
 
                 <section>
                     <h1 class="large-font">Data</h1>
@@ -282,7 +355,7 @@ var polygon =
                 </section>
 
                 <section >
-                    <h1>Geodatabase</h1>
+                    <h1>Spatial database</h1>
                     <img src="images/database-table.png" style="width: 90%;">
                 </section>
 
@@ -410,6 +483,15 @@ var polygon =
 
                 <section data-transition="fade">
                     <h1 class="large-font">APIs</h1>
+                    <hr>
+                    <br>
+                    <h1 class="yellow">JavaScript</h1>
+                    <h1 class="yellow">Android</h1>
+                    <h1 class="yellow">iOS</h1>
+                    <h1 class="yellow">.NET</h1>
+                    <h1 class="yellow">Java</h1>
+                    <h1 class="yellow">Python</h1>
+                    <h1>and more!</h1>
                 </section>
 
                 <section>
@@ -425,7 +507,7 @@ var polygon =
 
                 <section>
                     <h1>Proportional Line Renderer</h1>
-                    <img src="images/proportional-renderer.png" style="width: 70%;">
+                    <a href="https://developers.arcgis.com/javascript/jssamples/renderer_proportional_lines.html"> <img src="images/proportional-renderer.png" style="width: 70%;"></a>
                 </section>
 
                 <section>
@@ -458,30 +540,35 @@ var polygon =
                     <!--<img src="images/tile-style.png" style="width: 80%;">-->
                 </section>
 
+                <!--<section>-->
+                    <!--<h1>Styling Map Tiles</h1>-->
+                    <!--<br><br>-->
+                    <!--<pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 40px;">-->
+<!--var tileMapLayer = new CoolMapsTiledLayer(-->
+                        <!--this.config.basemapURL,-->
+                        <!--{color: “#ff0000” , alpha: 0.7});-->
+<!--map.addLayer(lyr);-->
+                    <!--</code></pre>-->
+                <!--</section>-->
+
                 <section>
-                    <h1>Styling Map Tiles</h1>
-                    <br><br>
-                    <pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 40px;">
-var tileMapLayer = new CoolMapsTiledLayer(
-                        this.config.basemapURL,
-                        {color: “#ff0000” , alpha: 0.7});
-map.addLayer(lyr);
-                    </code></pre>
+                    <h1 class="large-font yellow">Wrap up!</h1>
                 </section>
 
+                <!--
+
+                WRAP-UP SECTION
+
+                -->
+
                 <section data-background="images/crowd.png" data-background-transition="slide">
-                    <h1 class="large-font-black">GeoDev meetups??</h1>
+                    <h1 class="large-font-black">GeoDev meetups!</h1>
+                    <hr>
                     <br><br>
                     <h1 class="black">Geo-spatial social</h1>
                     <br><br>
-                    <h1 class="black">So YOU can share!</h1>
+                    <h1><a class="black" target="_blank" href="http://www.esri.com/events/dev-meetup">esri.com/devmeetup</a></h1>
                 </section>
-				
-				<section>
-					<h1>Meetups across the U.S.!</h1>
-					<br><br>
-					<h1><a class="yellow" target="_blank" href="http://www.esri.com/events/dev-meetup">esri.com/devmeetup</a></h1>
-				</section>
 
 				<section>
 					<h1>Staying Connected</h1>
@@ -544,7 +631,7 @@ map.addLayer(lyr);
                     <br><br>
                     <h1 >developers.arcgis.com</h1>
                     <br><br>
-                    <h1 class="yellow">1000 Credits</h1>
+                    <h1 class="large-font yellow">1000 Credits</h1>
                 </section>
 
 				<section>
@@ -552,7 +639,7 @@ map.addLayer(lyr);
                     <hr>
                     <br>
                     <h1>Sign up by <span class="yellow" style="text-decoration: underline">12/26/14</span></h1>
-                    <br>
+                    <br><br>
                     <h1>Use by <span class="yellow" style="text-decoration: underline">6/26/15</span></h1>
 					<!--<div class="fragment">-->
 						<!--<a target="_blank" href="http://developers.arcgis.com/">-->
@@ -567,6 +654,7 @@ map.addLayer(lyr);
 
                 <section>
                     <h1 class="large-font">Sign up!</h1>
+                    <h1 class="yellow">developers.arcgis.com</h1>
                     <img src="images/agol_signup.png">
                 </section>
 
@@ -578,7 +666,9 @@ map.addLayer(lyr);
                 <section>
                     <h1 class="large-font">Enter Code</h1>
                     <img src="images/agol-redeem-voucher2.png">
-                    <h1>developers.arcgis.com</h1>
+                </section>
+
+                <section data-background="images/the-end.png">
                 </section>
 
                 <section data-transition="fade">
@@ -600,7 +690,7 @@ map.addLayer(lyr);
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.min.js"></script>
 
-		<script>
+        <script>
 
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
