@@ -243,6 +243,10 @@ L.esri.basemapLayer('Topographic').addTo(map);
                 </section>
 
                 <section>
+                    <img src="images/bao-data.png" style="width: 70%;">
+                </section>
+
+                <section>
                     <img src="images/open-colorado.png" style="width: 80%;">
                 </section>
 
@@ -288,7 +292,8 @@ L.esri.basemapLayer('Topographic').addTo(map);
                     <h1>GeoJSON Point</h1>
                     <pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 40px;">
 var point =
-    { "type": "Point",
+    {
+        "type": "Point",
         "coordinates": [100.0, 0.0]
     }
                     </code></pre>
@@ -298,7 +303,8 @@ var point =
                     <h1>GeoJSON Line</h1>
                     <pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 40px;">
 var line =
-    { "type": "LineString",
+    {
+        "type": "LineString",
         "coordinates": [ [100.0, 0.0], [101.0, 1.0] ]
     }
                     </code></pre>
@@ -308,7 +314,8 @@ var line =
                     <h1>GeoJSON Polygon</h1>
                     <pre style="height: 600px;"><code class="javascript" data-trim contenteditable style="font-size: 40px;">
 var polygon =
-    { "type": "Polygon",
+    {
+        "type": "Polygon",
         "coordinates": [
             [
                 [100.0, 0.0], [101.0, 0.0], [101.0, 1.0],
