@@ -93,6 +93,13 @@
             padding-right: 20px;
         }
 
+        .esri-view-height-less-than-small .esri-popup__main-container,
+        .esri-view-height-less-than-medium .esri-popup__main-container,
+        .esri-view-height-less-than-large .esri-popup__main-container,
+        .esri-view-height-less-than-xlarge .esri-popup__main-container{
+            width: 300px;
+        }
+
     </style>
 
     <script src="https://js.arcgis.com/4.5/"></script>
@@ -102,8 +109,11 @@
             "esri/Map",
             "esri/views/MapView",
             "esri/widgets/Legend",
+            "esri/layers/FeatureLayer",
+            "esri/renderers/SimpleRenderer",
+            "esri/symbols/SimpleMarkerSymbol",
             "dojo/domReady!"
-        ], function(Map, MapView, Legend) {
+        ], function(Map, MapView, Legend, FeatureLayer, SimpleRenderer, SimpleMarkerSymbol) {
 
             var demoTitle = document.getElementById("hd");
 
@@ -114,22 +124,69 @@
             var defaultPadding = 20;
             var enableViewPadding = true;
 
+
+            const pointRenderer = new SimpleRenderer({
+                symbol: new SimpleMarkerSymbol({
+                    size: 6,
+                    color: "black",
+                    outline: {
+                        width: 0.5,
+                        color: "white"
+                    }
+                })
+            });
+
+            var popupTemplate = { // autocasts as new PopupTemplate()
+                title: "{Name}",
+                    content: [{
+                    type: "fields",
+                    fieldInfos: [{
+                        fieldName: "Name"
+                    }, {
+                        fieldName: "Platform__"
+                    }]
+                }]
+            }
+
+            // Get FeatureLayer url from ArcGIS Online
+            let featureLayer = new FeatureLayer({
+                url: "http://services.arcgis.com/WQ9KVmV6xGGMnCiQ/arcgis/rest/services/Tube_Stations_London_Marathon/FeatureServer/0",
+                //url: "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/NYC_Taxi_Data_Snapshot/FeatureServer/0",
+                outFields: ["Name","Platform__"],
+                renderer: pointRenderer,
+                popupTemplate: popupTemplate
+            });
+
             var map = new Map({
-                basemap: "hybrid"
+                basemap: "streets"
             })
 
             var view = new MapView({
                 container: "viewDiv",
                 map: map,
-                center: [-116.538114, 33.825710],
-                zoom: 18,
+
+                // Extent information take from Feature Service
+                extent: { // autocast to an Extent class
+                    xmin: -68014.6977999993,
+                    ymin: 6692753.2988,
+                    xmax: 28026.9081999995,
+                    ymax: 6747001.2608,
+                    spatialReference: 102100
+                },
                 padding: {
                     right: defaultPadding
                 }
             });
 
+            map.add(featureLayer);
+
             view.then(function() {
                 view.ui.add(optionsContainer, "top-right");
+
+                var popup = view.popup;
+                popup.viewModel.on("click", function(e){
+                    view
+                })
                 /*
                 var legend = new Legend({
                   container: legendDiv,
@@ -295,15 +352,15 @@ const classBreakInfos =
 </div>
 
 <div id="options" class="esri-widget">
-    <input id="padding" type="checkbox" checked /> Padding?
+    <input id="padding" type="checkbox"  checked /> Padding?
 </div>
 <div id="viewDiv"></div>
 <div id="slider">
     <div id="btnExpand" class="light-blue"></div>
     <div id="slider-content">
         <div id="legendDiv">
-            <em>Hello</em>
-            <iframe src="https://developers.arcgis.com" height="200" width="200"></iframe>
+            <!--<em>Hello</em>-->
+            <iframe src="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#padding" height="100%" width="100%"></iframe>
         </div>
     </div>
 </div>
