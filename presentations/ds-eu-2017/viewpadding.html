@@ -23,7 +23,7 @@
 
     <link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/css/main.css">
     <link rel="stylesheet" href="css/demo.css">
-    <!--<script src="demo.js"></script>-->
+    <script src="demo.js"></script>
 
     <style>
         html,
@@ -86,8 +86,13 @@
         }
 
         #options {
-            padding: 20px;
+            padding: 30px;
         }
+
+        .demo-title {
+            padding-right: 20px;
+        }
+
     </style>
 
     <script src="https://js.arcgis.com/4.5/"></script>
@@ -99,6 +104,8 @@
             "esri/widgets/Legend",
             "dojo/domReady!"
         ], function(Map, MapView, Legend) {
+
+            var demoTitle = document.getElementById("hd");
 
             var btnExpand = document.getElementById("btnExpand");
             var slider = document.getElementById("slider");
@@ -122,7 +129,7 @@
             });
 
             view.then(function() {
-                view.ui.add(optionsContainer, "bottom-left");
+                view.ui.add(optionsContainer, "top-right");
                 /*
                 var legend = new Legend({
                   container: legendDiv,
@@ -205,6 +212,8 @@
                         slider.style.marginRight = values.a + "px";
                         if (enableViewPadding) {
                             view.padding = updatePadding(values.a);
+                            demoTitle.style.width =  (window.innerWidth - (values.a - margin)).toString() + "px";
+                            console.log("padding " + demoTitle.style.width)
                         }
                     },
                     onComplete: function() {
@@ -223,6 +232,8 @@
                         slider.style.marginRight = values.a + "px";
                         if (enableViewPadding) {
                             view.padding = updatePadding(values.a);
+                            demoTitle.style.width =  (window.innerWidth - (values.a - margin)).toString() + "px";
+                            console.log("padding " + demoTitle.style.width)
                         }
                     },
                     onComplete: function() {
@@ -244,7 +255,44 @@
 
 <body>
 
+<header id="hd">
+    <section class="demo-version">
+        <span>4.x</span>
+    </section>
+    <section class="demo-title">
+        <span>View Padding</span>
+        <span class="btn-demo">Code</span>
+    </section>
+</header>
 
+
+<div id="code" class="code right shadowed" style="width: 800px;">
+    <textarea id="codemirror">
+const ageClasses = [
+  { minValue: 1900, maxValue: 1924, color: [153, 167, 204] },
+  { minValue: 1925, maxValue: 1949, color: [149, 184, 214] },
+  { minValue: 1950, maxValue: 1974, color: [153, 204, 203] },
+  { minValue: 1975, maxValue: 1999, color: [153, 204, 179] },
+  { minValue: 2000, maxValue: 2024, color: [175, 206, 152] }
+];
+const classBreakInfos =
+  ageClasses.map(({ color, minValue, maxValue }) => {
+    return {
+      minValue: minValue,
+      maxValue: maxValue,
+      symbol: {
+        type: "mesh-3d",
+        symbolLayers: [{
+          type: "fill",
+          material: {
+            color: color
+          }
+        }]
+      }
+    };
+  });
+    </textarea>
+</div>
 
 <div id="options" class="esri-widget">
     <input id="padding" type="checkbox" checked /> Padding?
@@ -255,6 +303,7 @@
     <div id="slider-content">
         <div id="legendDiv">
             <em>Hello</em>
+            <iframe src="https://developers.arcgis.com" height="200" width="200"></iframe>
         </div>
     </div>
 </div>
