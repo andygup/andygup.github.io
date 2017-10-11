@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>View Padding</title>
+
+    <link rel="stylesheet" href="http://esironal.github.io/cmtouch/lib/codemirror.css">
+    <link rel="stylesheet" href="http://esironal.github.io/cmtouch/addon/hint/show-hint.css">
+    <script src="http://esironal.github.io/cmtouch/lib/codemirror.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/hint/show-hint.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/hint/xml-hint.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/hint/html-hint.js"></script>
+    <script src="http://esironal.github.io/cmtouch/mode/xml/xml.js"></script>
+    <script src="http://esironal.github.io/cmtouch/mode/javascript/javascript.js"></script>
+    <script src="http://esironal.github.io/cmtouch/mode/css/css.js"></script>
+    <script src="http://esironal.github.io/cmtouch/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/selection/active-line.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/edit/matchbrackets.js"></script>
+
+    <link rel="stylesheet" href="http://esironal.github.io/cmtouch/theme/neonsyntax.css">
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/css/main.css">
+    <link rel="stylesheet" href="css/demo.css">
+    <!--<script src="demo.js"></script>-->
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            font-family: Helvetica, Arial, Sans-Serif;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #slider {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            padding: 0;
+            margin: 0;
+            width: 300px;
+            margin-right: -280px;
+        }
+
+        #slider-content {
+            position: absolute;
+            right: 0;
+            top: 0;
+            left: 20px;
+            bottom: 0;
+            padding: 0;
+            margin: 0;
+            background-color: #000;
+            opacity: 0.8;
+        }
+
+        #legendDiv {
+            color: #fff;
+            font-size: 4em;
+            padding: 20px;
+        }
+
+        #legendDiv img {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        #legendDiv em {
+            color: #fff;
+            position: absolute;
+            top: 0;
+        }
+
+        #btnExpand {
+            width: 20px;
+            height: 100%;
+            float: left;
+            background-color: #56a5d8;
+        }
+
+        #options {
+            padding: 20px;
+        }
+    </style>
+
+    <script src="https://js.arcgis.com/4.5/"></script>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/widgets/Legend",
+            "dojo/domReady!"
+        ], function(Map, MapView, Legend) {
+
+            var btnExpand = document.getElementById("btnExpand");
+            var slider = document.getElementById("slider");
+            var legendDiv = document.getElementById("legendDiv");
+            var optionsContainer = document.getElementById("options");
+            var defaultPadding = 20;
+            var enableViewPadding = true;
+
+            var map = new Map({
+                basemap: "hybrid"
+            })
+
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [-116.538114, 33.825710],
+                zoom: 18,
+                padding: {
+                    right: defaultPadding
+                }
+            });
+
+            view.then(function() {
+                view.ui.add(optionsContainer, "bottom-left");
+                /*
+                var legend = new Legend({
+                  container: legendDiv,
+                  view: view,
+                  layerInfos: [{
+                    layer: ccLayer,
+                    title: "Accidental Deaths"
+                  }]
+                });
+                */
+            });
+
+            var margin = -280;
+            var increment = 1;
+
+            // http://codereview.stackexchange.com/questions/106946/simple-animation-method-with-requestanimationframe-code-structure
+            function animate(options) {
+                options = options || {};
+
+                // defaults
+                var duration = options.duration || 500,
+                    ease = options.easing || function (a) { return a }, // basic linear easing
+                    onProgress = options.onProgress || function () {},
+                    onComplete = options.onComplete || function () {},
+                    from = options.from || {},
+                    to = options.to || {};
+
+                // runtime variables
+                var startTime = Date.now();
+
+                function update() {
+                    var deltaTime = Date.now() - startTime,
+                        progress = Math.min(deltaTime / duration, 1),
+                        factor = ease(progress),
+                        values = {},
+                        property;
+
+                    for(property in from) {
+                        if(from.hasOwnProperty(property) && to.hasOwnProperty(property)) {
+                            values[property] = from[property] + (to[property] - from[property]) * factor;
+                        }
+                    }
+
+                    onProgress(values);
+
+                    if(progress === 1) {
+                        onComplete(deltaTime);
+                    } else {
+                        requestAnimationFrame(update);
+                    }
+                }
+
+                requestAnimationFrame(update);
+            }
+
+            function inExpo(t) {
+                return Math.pow(2, 10 * (t - 1));
+            }
+
+            function outExpo(t) {
+                return inExpo(1 - t);
+            }
+
+            function inOutExpo(t) {
+                return t < 0.5 ? inExpo(t * 2) / 2 : (outExpo((t - 0.5) * 2) + 1) / 2;
+            }
+
+            function inSine(t) {
+                return -Math.cos(t * Math.PI / 2) + 1;
+            }
+
+            function updatePadding(value) {
+                return { right: value - margin + defaultPadding };
+            }
+
+            function expand() {
+                animate({
+                    easing: inSine,
+                    onProgress: function(values) {
+                        slider.style.marginRight = values.a + "px";
+                        if (enableViewPadding) {
+                            view.padding = updatePadding(values.a);
+                        }
+                    },
+                    onComplete: function() {
+                        btnExpand.removeEventListener("click", expand);
+                        btnExpand.addEventListener("click", collapse);
+                    },
+                    from: { a: margin },
+                    to: { a: 0 }
+                });
+            }
+
+            function collapse() {
+                animate({
+                    easing: inSine,
+                    onProgress: function(values) {
+                        slider.style.marginRight = values.a + "px";
+                        if (enableViewPadding) {
+                            view.padding = updatePadding(values.a);
+                        }
+                    },
+                    onComplete: function() {
+                        btnExpand.removeEventListener("click", collapse);
+                        btnExpand.addEventListener("click", expand);
+                    },
+                    from: { a: 0 },
+                    to: { a: margin }
+                });
+            }
+
+            btnExpand.addEventListener("click", expand);
+            document.getElementById("padding").addEventListener("change", function() {
+                enableViewPadding = !enableViewPadding;
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+
+
+<div id="options" class="esri-widget">
+    <input id="padding" type="checkbox" checked /> Padding?
+</div>
+<div id="viewDiv"></div>
+<div id="slider">
+    <div id="btnExpand" class="light-blue"></div>
+    <div id="slider-content">
+        <div id="legendDiv">
+            <em>Hello</em>
+        </div>
+    </div>
+</div>
+</body>
+</html>
