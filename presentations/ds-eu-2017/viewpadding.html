@@ -97,7 +97,7 @@
         .esri-view-height-less-than-medium .esri-popup__main-container,
         .esri-view-height-less-than-large .esri-popup__main-container,
         .esri-view-height-less-than-xlarge .esri-popup__main-container{
-            width: 300px;
+            width: 375px;
         }
 
     </style>
@@ -107,13 +107,14 @@
     <script>
         require([
             "esri/Map",
+            "esri/WebMap",
             "esri/views/MapView",
             "esri/widgets/Legend",
             "esri/layers/FeatureLayer",
             "esri/renderers/SimpleRenderer",
             "esri/symbols/SimpleMarkerSymbol",
             "dojo/domReady!"
-        ], function(Map, MapView, Legend, FeatureLayer, SimpleRenderer, SimpleMarkerSymbol) {
+        ], function(Map, WebMap, MapView, Legend, FeatureLayer, SimpleRenderer, SimpleMarkerSymbol) {
 
             var demoTitle = document.getElementById("hd");
 
@@ -124,63 +125,100 @@
             var defaultPadding = 20;
             var enableViewPadding = true;
 
+//            const pointRenderer = new SimpleRenderer({
+//                symbol: new SimpleMarkerSymbol({
+//                    size: 6,
+//                    color: "black",
+//                    outline: {
+//                        width: 0.5,
+//                        color: "white"
+//                    }
+//                })
+//            });
+//
+//            var popupTemplate = { // autocasts as new PopupTemplate()
+//                title: "{Name}",
+//                    content: [{
+//                    type: "fields",
+//                    fieldInfos: [{
+//                        fieldName: "Name"
+//                    }, {
+//                        fieldName: "Platform__"
+//                    }]
+//                }]
+//            }
+//
+//            // Get FeatureLayer url from ArcGIS Online
+//            let featureLayer = new FeatureLayer({
+//                url: "http://services.arcgis.com/WQ9KVmV6xGGMnCiQ/arcgis/rest/services/Tube_Stations_London_Marathon/FeatureServer/0",
+//                //url: "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/NYC_Taxi_Data_Snapshot/FeatureServer/0",
+//                outFields: ["Name","Platform__"],
+//                renderer: pointRenderer,
+//                popupTemplate: popupTemplate
+//            });
+//
+//            var legend = new Legend({
+//                view: view,
+//                container: document.getElementById("legend"),
+//                layerInfos: [{
+//                    layer: featureLayer,
+//                    title: "Legend"
+//                }]
+//            });
 
-            const pointRenderer = new SimpleRenderer({
-                symbol: new SimpleMarkerSymbol({
-                    size: 6,
-                    color: "black",
-                    outline: {
-                        width: 0.5,
-                        color: "white"
-                    }
-                })
+
+            var webmap = new WebMap({
+                portalItem: { // autocasts as new PortalItem()
+                    id: "fe6250bd7acc475984aa9bd190cd47e6"
+                    //id: "4abe6a830b8f466dacf8abfde567a781"
+                }
             });
-
-            var popupTemplate = { // autocasts as new PopupTemplate()
-                title: "{Name}",
-                    content: [{
-                    type: "fields",
-                    fieldInfos: [{
-                        fieldName: "Name"
-                    }, {
-                        fieldName: "Platform__"
-                    }]
-                }]
-            }
-
-            // Get FeatureLayer url from ArcGIS Online
-            let featureLayer = new FeatureLayer({
-                url: "http://services.arcgis.com/WQ9KVmV6xGGMnCiQ/arcgis/rest/services/Tube_Stations_London_Marathon/FeatureServer/0",
-                //url: "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/NYC_Taxi_Data_Snapshot/FeatureServer/0",
-                outFields: ["Name","Platform__"],
-                renderer: pointRenderer,
-                popupTemplate: popupTemplate
-            });
-
-            var map = new Map({
-                basemap: "streets"
-            })
 
             var view = new MapView({
                 container: "viewDiv",
-                map: map,
-
-                // Extent information take from Feature Service
-                extent: { // autocast to an Extent class
-                    xmin: -68014.6977999993,
-                    ymin: 6692753.2988,
-                    xmax: 28026.9081999995,
-                    ymax: 6747001.2608,
-                    spatialReference: 102100
-                },
+                map: webmap,
                 padding: {
                     right: defaultPadding
                 }
             });
 
-            map.add(featureLayer);
+
+//            var map = new Map({
+//                basemap: "streets"
+//            });
+//
+//            var view = new MapView({
+//                container: "viewDiv",
+//                map: map,
+//
+//                // Extent information take from Feature Service
+//                extent: { // autocast to an Extent class
+//                    xmin: -68014.6977999993,
+//                    ymin: 6692753.2988,
+//                    xmax: 28026.9081999995,
+//                    ymax: 6747001.2608,
+//                    spatialReference: 102100
+//                },
+//                padding: {
+//                    right: defaultPadding
+//                }
+//            });
+
+//            map.add(featureLayer);
 
             view.then(function() {
+
+                var featureLayer = webmap.layers.getItemAt(0);
+
+                var legend = new Legend({
+                    view: view,
+                    container: document.getElementById("legend"),
+                    layerInfos: [{
+                        layer: featureLayer,
+                        title: "NY Educational Attainment"
+                    }]
+                });
+
                 view.ui.add(optionsContainer, "top-right");
 
                 var popup = view.popup;
@@ -270,7 +308,6 @@
                         if (enableViewPadding) {
                             view.padding = updatePadding(values.a);
                             demoTitle.style.width =  (window.innerWidth - (values.a - margin)).toString() + "px";
-                            console.log("padding " + demoTitle.style.width)
                         }
                     },
                     onComplete: function() {
@@ -290,7 +327,6 @@
                         if (enableViewPadding) {
                             view.padding = updatePadding(values.a);
                             demoTitle.style.width =  (window.innerWidth - (values.a - margin)).toString() + "px";
-                            console.log("padding " + demoTitle.style.width)
                         }
                     },
                     onComplete: function() {
@@ -325,29 +361,26 @@
 
 <div id="code" class="code right shadowed" style="width: 800px;">
     <textarea id="codemirror">
-const ageClasses = [
-  { minValue: 1900, maxValue: 1924, color: [153, 167, 204] },
-  { minValue: 1925, maxValue: 1949, color: [149, 184, 214] },
-  { minValue: 1950, maxValue: 1974, color: [153, 204, 203] },
-  { minValue: 1975, maxValue: 1999, color: [153, 204, 179] },
-  { minValue: 2000, maxValue: 2024, color: [175, 206, 152] }
-];
-const classBreakInfos =
-  ageClasses.map(({ color, minValue, maxValue }) => {
-    return {
-      minValue: minValue,
-      maxValue: maxValue,
-      symbol: {
-        type: "mesh-3d",
-        symbolLayers: [{
-          type: "fill",
-          material: {
-            color: color
-          }
-        }]
-      }
-    };
-  });
+function expand() {
+    animate({
+        easing: inSine,
+        onProgress: function(values) {
+            slider.style.marginRight = values.a + "px";
+            if (enableViewPadding) {
+                // Dynamically modify the view padding
+                view.padding = {
+                    right: values.a - margin + defaultPadding
+                };
+            }
+        },
+        onComplete: function() {
+            btnExpand.removeEventListener("click", expand);
+            btnExpand.addEventListener("click", collapse);
+        },
+        from: { a: margin },
+        to: { a: 0 }
+    });
+}
     </textarea>
 </div>
 
@@ -358,10 +391,11 @@ const classBreakInfos =
 <div id="slider">
     <div id="btnExpand" class="light-blue"></div>
     <div id="slider-content">
-        <div id="legendDiv">
-            <!--<em>Hello</em>-->
-            <iframe src="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#padding" height="100%" width="100%"></iframe>
-        </div>
+        <!--<div id="legendDiv">-->
+            <!--&lt;!&ndash;<em>Hello</em>&ndash;&gt;-->
+            <!--<iframe src="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#padding" height="400px" width="100%"></iframe>-->
+        <!--</div>-->
+        <div id="legend"></div>
     </div>
 </div>
 </body>
