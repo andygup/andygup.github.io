@@ -97,7 +97,7 @@
         .esri-view-height-less-than-medium .esri-popup__main-container,
         .esri-view-height-less-than-large .esri-popup__main-container,
         .esri-view-height-less-than-xlarge .esri-popup__main-container{
-            width: 375px;
+            width: 400px;
         }
 
     </style>
@@ -110,62 +110,16 @@
             "esri/WebMap",
             "esri/views/MapView",
             "esri/widgets/Legend",
-            "esri/layers/FeatureLayer",
-            "esri/renderers/SimpleRenderer",
-            "esri/symbols/SimpleMarkerSymbol",
             "dojo/domReady!"
-        ], function(Map, WebMap, MapView, Legend, FeatureLayer, SimpleRenderer, SimpleMarkerSymbol) {
+        ], function(Map, WebMap, MapView, Legend) {
 
             var demoTitle = document.getElementById("hd");
 
             var btnExpand = document.getElementById("btnExpand");
             var slider = document.getElementById("slider");
-            var legendDiv = document.getElementById("legendDiv");
             var optionsContainer = document.getElementById("options");
             var defaultPadding = 20;
             var enableViewPadding = true;
-
-//            const pointRenderer = new SimpleRenderer({
-//                symbol: new SimpleMarkerSymbol({
-//                    size: 6,
-//                    color: "black",
-//                    outline: {
-//                        width: 0.5,
-//                        color: "white"
-//                    }
-//                })
-//            });
-//
-//            var popupTemplate = { // autocasts as new PopupTemplate()
-//                title: "{Name}",
-//                    content: [{
-//                    type: "fields",
-//                    fieldInfos: [{
-//                        fieldName: "Name"
-//                    }, {
-//                        fieldName: "Platform__"
-//                    }]
-//                }]
-//            }
-//
-//            // Get FeatureLayer url from ArcGIS Online
-//            let featureLayer = new FeatureLayer({
-//                url: "http://services.arcgis.com/WQ9KVmV6xGGMnCiQ/arcgis/rest/services/Tube_Stations_London_Marathon/FeatureServer/0",
-//                //url: "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/NYC_Taxi_Data_Snapshot/FeatureServer/0",
-//                outFields: ["Name","Platform__"],
-//                renderer: pointRenderer,
-//                popupTemplate: popupTemplate
-//            });
-//
-//            var legend = new Legend({
-//                view: view,
-//                container: document.getElementById("legend"),
-//                layerInfos: [{
-//                    layer: featureLayer,
-//                    title: "Legend"
-//                }]
-//            });
-
 
             var webmap = new WebMap({
                 portalItem: { // autocasts as new PortalItem()
@@ -182,30 +136,6 @@
                 }
             });
 
-
-//            var map = new Map({
-//                basemap: "streets"
-//            });
-//
-//            var view = new MapView({
-//                container: "viewDiv",
-//                map: map,
-//
-//                // Extent information take from Feature Service
-//                extent: { // autocast to an Extent class
-//                    xmin: -68014.6977999993,
-//                    ymin: 6692753.2988,
-//                    xmax: 28026.9081999995,
-//                    ymax: 6747001.2608,
-//                    spatialReference: 102100
-//                },
-//                padding: {
-//                    right: defaultPadding
-//                }
-//            });
-
-//            map.add(featureLayer);
-
             view.then(function() {
 
                 var featureLayer = webmap.layers.getItemAt(0);
@@ -215,26 +145,11 @@
                     container: document.getElementById("legend"),
                     layerInfos: [{
                         layer: featureLayer,
-                        title: "NY Educational Attainment"
+                        title: "Average Household Size"
                     }]
                 });
 
                 view.ui.add(optionsContainer, "top-right");
-
-                var popup = view.popup;
-                popup.viewModel.on("click", function(e){
-                    view
-                })
-                /*
-                var legend = new Legend({
-                  container: legendDiv,
-                  view: view,
-                  layerInfos: [{
-                    layer: ccLayer,
-                    title: "Accidental Deaths"
-                  }]
-                });
-                */
             });
 
             var margin = -280;
@@ -391,10 +306,6 @@ function expand() {
 <div id="slider">
     <div id="btnExpand" class="light-blue"></div>
     <div id="slider-content">
-        <!--<div id="legendDiv">-->
-            <!--&lt;!&ndash;<em>Hello</em>&ndash;&gt;-->
-            <!--<iframe src="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#padding" height="400px" width="100%"></iframe>-->
-        <!--</div>-->
         <div id="legend"></div>
     </div>
 </div>
