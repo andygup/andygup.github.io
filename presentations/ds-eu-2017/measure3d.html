@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Measure Distance</title>
+
+
+    <link rel="stylesheet" href="http://esironal.github.io/cmtouch/lib/codemirror.css">
+    <link rel="stylesheet" href="http://esironal.github.io/cmtouch/addon/hint/show-hint.css">
+    <script src="http://esironal.github.io/cmtouch/lib/codemirror.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/hint/show-hint.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/hint/xml-hint.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/hint/html-hint.js"></script>
+    <script src="http://esironal.github.io/cmtouch/mode/xml/xml.js"></script>
+    <script src="http://esironal.github.io/cmtouch/mode/javascript/javascript.js"></script>
+    <script src="http://esironal.github.io/cmtouch/mode/css/css.js"></script>
+    <script src="http://esironal.github.io/cmtouch/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/selection/active-line.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/edit/matchbrackets.js"></script>
+
+    <link rel="stylesheet" href="http://esironal.github.io/cmtouch/theme/neonsyntax.css">
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/css/main.css">
+    <link rel="stylesheet" href="css/demo.css">
+    <script src="demo.js"></script>
+
+    <style>
+        html,
+        body,
+        #container {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 70vh;
+        }
+        #controlDiv {
+            padding: 0;
+            margin: 0;
+            height: 30vh;
+        }
+    </style>
+
+    <script>
+        var dojoConfig = {
+            async: true,
+            isDebug: true
+        };
+    </script>
+
+    <script src="https://js.arcgis.com/4.5/"></script>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/layers/SceneLayer",
+            "esri/renderers/SimpleRenderer",
+            "esri/symbols/MeshSymbol3D",
+            "esri/symbols/FillSymbol3DLayer",
+            "esri/views/SceneView",
+            "esri/geometry/Point",
+            "esri/geometry/Polyline",
+            "esri/geometry/geometryEngine",
+//            "esri/views/3d/interactive/tools/measureDistance/MeasureDistanceTool",
+            "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js",
+            "dojo/domReady!"
+        ], function (Map, SceneLayer, SimpleRenderer, MeshSymbol3D, FillSymbol3DLayer, SceneView, Point, Polyline, GeometryEngine, MeasureDistanceTool) {
+
+            let map = new Map({
+                basemap: "streets",
+                ground: "world-elevation"
+            });
+
+            let view = new SceneView({
+                container: "viewDiv",
+                map: map,
+                camera: {
+                    position: [4.4677, 51.9134, 200],
+                    //position: [-74.0338, 40.6913, 707],
+                    tilt: 78,
+                    heading: 35
+                }
+            });
+
+            let sceneLayer = new SceneLayer({
+                url: "https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Building_Rotterdam/SceneServer/layers/0",
+
+                //url: "https://tiles.arcgis.com/tiles/z2tnIkrLQ2BRzr6P/arcgis/rest/services/New_York_LoD2_3D_Buildings/SceneServer/layers/0",
+                popupEnabled: false
+            });
+
+            map.add(sceneLayer);
+            // view.then(() => {
+            //   view.goTo({center:[8.05,46.36], heading:40, tilt: 80, distance: 1000, animate: false});
+            // });
+
+            let tool = null;
+
+            window.startMeasureClick = () => {
+                window.stopMeasureClick();
+                tool = new MeasureDistanceTool({ view: view});
+                view.interactive.activeTool = tool;
+                tool.watch("distance", (value) => {
+                    document.getElementById("distance").innerHTML = value.toFixed(2);
+            });
+                tool.watch("distanceHorizontal", (value) => {
+                    document.getElementById("distanceHorizontal").innerHTML = value.toFixed(2);
+            });
+                tool.watch("distanceVertical", (value) => {
+                    document.getElementById("distanceVertical").innerHTML = value.toFixed(2);
+            });
+
+                let ctx = document.getElementById("elevationChart").getContext("2d");
+                let chart = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        datasets: [{
+                            label: "Elevation",
+                            backgroundColor: "#fff2cc",
+                            borderColor: "#ff8000",
+                            pointRadius: 2,
+                            fill: true,
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        elements: {
+                            point: {
+                                pointStyle: "circle",
+                            }
+                        },
+                        scales: {
+                            xAxes: [{
+                                type: "linear",
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: "Distance",
+                                }
+                            }],
+                            yAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    type: "linear",
+                                    display: true,
+                                    labelString: "Elevation (m)",
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                tool.watch("path", (value) => {
+                    let path = value.paths[0];
+                if (!path) {
+                    return;
+                }
+                let elevation = [];
+                let totalDistance = 0;
+                for (let i = 0; i < path.length; ++i) {
+                    elevation.push({ x: totalDistance, y: path[i][2] });
+                    let p0 = path[i > 0 ? i - 1 : 0];
+                    let p1 = path[i];
+                    const d = GeometryEngine.geodesicLength(
+                        new Polyline({
+                            hasZ: false,
+                            hasM: false,
+                            paths: [ p0, p1 ],
+                            spatialReference: { wkid: 4326 }
+                        }),
+                        "meters"
+                    );
+                    totalDistance += d;
+                }
+                let distanceUnit = "m";
+                let distanceScale = 1.0
+                if (totalDistance > 1000) {
+                    distanceUnit = "km";
+                    distanceScale = 0.001;
+                }
+
+                let xAxis = chart.options.scales.xAxes[0];
+                xAxis.scaleLabel.labelString = "Distance (" + distanceUnit + ")";
+                for (let i = 0; i < elevation.length; ++i) {
+                    elevation[i].x *= distanceScale;
+                }
+                xAxis.ticks.min = 0;
+                xAxis.ticks.max = elevation[elevation.length - 1].x;
+                chart.data.datasets[0].data = elevation;
+                chart.update();
+            });
+            };
+            window.stopMeasureClick = () => {
+                if (tool) {
+                    view.interactive.activeTool = null;
+                    tool = null;
+                }
+            };
+            // window.modeChange = () => {
+            //   let mode = document.getElementById("mode").value;
+            //   if (view.interactive.activeTool) {
+            //     view.interactive.activeTool.mode = mode;
+            //   }
+            // }
+            window.globalClick = () => {
+                view.destroy();
+                view = new SceneView({
+                    container: "viewDiv",
+                    viewingMode: "global",
+                    map: map,
+                    environment: environment
+                });
+            };
+            window.localClick = () => {
+                view.destroy();
+                view = new SceneView({
+                    container: "viewDiv",
+                    viewingMode: "local",
+                    map: map,
+                    environment: environment
+                });
+            };
+
+        });
+    </script>
+</head>
+<body>
+<div id="container">
+    <div id="viewDiv"></div>
+    <div id="controlDiv">
+        <button onclick="javascript:startMeasureClick()">Start Measure</button>
+        <button onclick="javascript:stopMeasureClick()">Stop Measure</button>
+        <!-- <select id="mode" onchange="javascript:modeChange()">
+          <option value="draped">Draped</option>
+          <option value="freeflight">Freeflight</option>
+        </select> -->
+        <button onclick="javascript:globalClick()">Global</button>
+        <button onclick="javascript:localClick()">Local</button>
+        <div>
+            <span>Distance: </span><span id="distance">0</span><span> m</span> |
+            <span>Distance (horizontal): </span><span id="distanceHorizontal">0</span><span> m</span> |
+            <span>Distance (vertical): </span><span id="distanceVertical">0</span><span> m</span>
+        </div>
+        <div>
+            <canvas id="elevationChart" width="500px" height="100%"></canvas>
+        </div>
+    </div>
+    <div>
+</body>
+</html>
