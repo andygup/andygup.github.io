@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>All Widgets - 4.5</title>
+
+    <link rel="stylesheet" href="http://esironal.github.io/cmtouch/lib/codemirror.css">
+    <link rel="stylesheet" href="http://esironal.github.io/cmtouch/addon/hint/show-hint.css">
+    <script src="http://esironal.github.io/cmtouch/lib/codemirror.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/hint/show-hint.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/hint/xml-hint.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/hint/html-hint.js"></script>
+    <script src="http://esironal.github.io/cmtouch/mode/xml/xml.js"></script>
+    <script src="http://esironal.github.io/cmtouch/mode/javascript/javascript.js"></script>
+    <script src="http://esironal.github.io/cmtouch/mode/css/css.js"></script>
+    <script src="http://esironal.github.io/cmtouch/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/selection/active-line.js"></script>
+    <script src="http://esironal.github.io/cmtouch/addon/edit/matchbrackets.js"></script>
+
+    <link rel="stylesheet" href="http://esironal.github.io/cmtouch/theme/neonsyntax.css">
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/css/main.css">
+    <link rel="stylesheet" href="css/demo.css">
+    <script src="demo.js"></script>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <script src="https://js.arcgis.com/4.5/"></script>
+
+    <script>
+        require([
+            "esri/WebMap",
+            "esri/views/MapView",
+
+            "esri/layers/GroupLayer",
+            "esri/layers/MapImageLayer",
+
+            "esri/widgets/Search",
+            "esri/widgets/Expand",
+            "esri/widgets/BasemapGallery",
+            "esri/widgets/Home",
+            "esri/widgets/LayerList",
+            "esri/widgets/Print",
+            "esri/widgets/Legend",
+            "esri/widgets/ScaleBar"
+        ], function(  WebMap, MapView,
+                      GroupLayer, MapImageLayer,
+                      Search, Expand, BasemapGallery, Home,
+                      LayerList, Print, Legend, ScaleBar) {
+
+            map = new WebMap({
+                portalItem: {
+                    id: "92826df2856d45e19c982eba096c98f4"
+                }
+            });
+
+            view = new MapView({
+                container: "viewDiv",
+                map: map,
+                ui: {
+                    components:  [
+                        "zoom",
+                        "attribution",
+                        "navigation-toggle",
+                        "compass"
+                    ],
+                    padding: {
+                        top: 75
+                    }
+                },
+                popup: {
+                    dockOptions: {
+                        breakpoint: false,
+                        position: "bottom-center"
+                    }
+                }
+            });
+
+            var search = new Search({
+                view: view,
+                container: document.createElement("div")
+            });
+
+            var basemapGallery = new BasemapGallery({
+                view: view,
+                container: document.createElement("div")
+            });
+
+            var home = new Home({ view: view });
+
+            var layerList = new LayerList({
+                view: view,
+                container: document.createElement("div")
+            });
+
+            var print = new Print({
+                view: view,
+                printServiceUrl: "https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+                container: document.createElement("div")
+            });
+
+            var legend = new Legend({
+                view: view,
+                container: document.createElement("div")
+            });
+
+            var scaleBar = new ScaleBar({
+                view: view,
+                style: "line"
+            });
+
+            var searchExpand = new Expand({
+                view: view,
+                content: search.domNode,
+                expandIconClass: "esri-icon-search"
+            });
+
+            var bgExpand = new Expand({
+                view: view,
+                content: basemapGallery.domNode,
+                expandIconClass: "esri-icon-basemap"
+            });
+
+            var listExpand = new Expand({
+                view: view,
+                content: layerList.domNode,
+                expandIconClass: "esri-icon-layer-list"
+            });
+
+            var printExpand = new Expand({
+                view: view,
+                content: print.domNode,
+                expandIconClass: "esri-icon-printer"
+            });
+
+            var legendExpand = new Expand({
+                view: view,
+                content: legend.domNode,
+                expandIconClass: "esri-icon-layers"
+            });
+
+            view.ui.add(searchExpand, "top-right");
+            view.ui.add(printExpand, "top-right");
+            view.ui.add(bgExpand, "top-right");
+            view.ui.add(legendExpand, "top-right");
+            view.ui.add(listExpand, "top-right");
+            view.ui.add(home, "top-left");
+            view.ui.add(scaleBar, "bottom-left");
+        });
+    </script>
+</head>
+
+<body>
+<header>
+    <section class="demo-version">
+        <span>4.x</span>
+    </section>
+    <section class="demo-title">
+        <span>All Widgets</span>
+        <span class="btn-demo">Code</span>
+    </section>
+</header>
+
+<div id="code" class="code right shadowed" style="width: 800px;">
+    <textarea id="codemirror">
+var legendExpand = new Expand({
+    view: view,
+    content: legend.domNode,
+    expandIconClass: "esri-icon-layers"
+});
+
+view.ui.add(searchExpand, "top-right");
+view.ui.add(printExpand, "top-right");
+view.ui.add(baseMapGalleryExpand, "top-right");
+view.ui.add(legendExpand, "top-right");
+   </textarea>
+</div>
+
+<div id="viewDiv"></div>
+</body>
+</html>
