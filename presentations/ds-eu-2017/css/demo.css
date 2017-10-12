@@ -1,0 +1,77 @@
+header {
+  background-color: #28316d;
+  color: #f0c428;
+  height: 75px;
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 75px;
+  font-family: Avenir, Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size: 32px;
+}
+
+.demo-version {
+  height: 100%;
+  width: 75px;
+  opacity: 0.5;
+  background-color: whitesmoke;
+  color: #28316d;
+  float: left;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 75px; 
+}
+
+.btn-demo {
+  height: 100%;
+  width: 75px;
+  opacity: 0.5;
+  background-color: whitesmoke;
+  color: #28316d;
+  float: right;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 75px; 
+  padding: 0 20px 0 20px;
+  cursor: pointer;
+}
+
+.btn-demo:hover {
+  background-color: #6685d5;
+  color: whitesmoke;
+  text-decoration: none;
+  opacity: 0.5;
+}
+
+.hidden {
+  display: none;
+}
+
+
+.code {
+  opacity: 0;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  transition: all ease 250ms;
+  bottom: 16px;
+  left: 0;
+  position: absolute;
+  z-index: 20000;
+  height: auto;
+}
+
+.code.manual:not(.visible) {
+  pointer-events: none;
+}
+
+.code.visible, .code:not(.manual):hover {
+  opacity: 1;
+  filter: none;
+  -webkit-filter: none;
+}
+
+.CodeMirror {
+  font-size: 18px;
+  width: 100%, ;
+  height: 100%;
+}
